@@ -1,0 +1,3 @@
+-- Seed local pentru `supabase db reset` (mediu de dezvoltare).
+-- Planurile SaaS sunt inserate prin migrari (sunt date de referinta).
+-- Adauga aici date demo daca rulezi Supabase local cu Docker.

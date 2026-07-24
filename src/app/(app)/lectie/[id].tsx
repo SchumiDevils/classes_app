@@ -1,11 +1,11 @@
-import { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { Stack, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { Button, EmptyState, Field, Section, Segmented, colors, sectionColors } from '@/components/ui';
 import { ROLURI_STAFF, useSession } from '@/lib/ctx';
-import { getLectie, getPrezentaLectie, setPrezenta, updateLectie, type PrezentaElev } from '@/lib/queries';
 import type { LectieRow, StatusLectie } from '@/lib/database.types';
+import { getLectie, getPrezentaLectie, setPrezenta, updateLectie, type PrezentaElev } from '@/lib/queries';
 
 export default function DetaliuLectie() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -125,6 +125,11 @@ export default function DetaliuLectie() {
               { value: 'ANULATA', label: 'Anulată' },
             ]}
           />
+          {status === 'REALIZATA' && lectie.status !== 'REALIZATA' ? (
+            <Text style={styles.hint}>
+              La salvare, se generează automat câte o notă de plată pentru fiecare elev marcat prezent.
+            </Text>
+          ) : null}
         </View>
 
         <Field
@@ -165,6 +170,7 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bg },
   container: { padding: 16, gap: 14 },
   label: { fontSize: 13, fontWeight: '600', color: colors.muted },
+  hint: { fontSize: 12, color: colors.amber, fontStyle: 'italic' },
   prezRow: {
     flexDirection: 'row',
     alignItems: 'center',

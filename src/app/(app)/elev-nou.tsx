@@ -1,10 +1,10 @@
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useFocusEffect, useRouter } from 'expo-router';
 
 import { Button, ChipSelect, Field, Subtitle, colors } from '@/components/ui';
-import { createStudent, listTutori } from '@/lib/queries';
 import type { TutorRow } from '@/lib/database.types';
+import { createStudent, listTutori } from '@/lib/queries';
 
 export default function ElevNou() {
   const router = useRouter();

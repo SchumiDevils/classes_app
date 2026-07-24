@@ -333,6 +333,15 @@ export type Database = {
         Args: Record<string, never>;
         Returns: string;
       };
+      genereaza_lectii: {
+        Args: {
+          p_grupa_id: number;
+          p_data_start: string;
+          p_data_sfarsit: string;
+          p_profesor_id?: number | null;
+        };
+        Returns: number;
+      };
       genereaza_datorii: {
         Args: Record<string, never>;
         Returns: number;

@@ -19,6 +19,7 @@ import type {
   StudentRow,
   TipContractRow,
   TutorRow,
+  Ziua,
 } from '@/lib/database.types';
 
 // ---------- Dashboard ---------------------------------------------------------
@@ -145,6 +146,34 @@ export async function getGrupa(id: number): Promise<GrupaRow | null> {
   return data;
 }
 
+export async function createGrupa(input: {
+  denumire: string;
+  profesor_id?: number | null;
+  tip_contract_id?: number | null;
+}): Promise<GrupaRow> {
+  const { data, error } = await supabase
+    .from('grupa')
+    .insert({
+      denumire: input.denumire,
+      profesor_id: input.profesor_id ?? null,
+      tip_contract_id: input.tip_contract_id ?? null,
+    })
+    .select('*')
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function updateGrupa(id: number, patch: Partial<GrupaRow>): Promise<void> {
+  const { error } = await supabase.from('grupa').update(patch).eq('id', id);
+  if (error) throw error;
+}
+
+export async function deleteGrupa(id: number): Promise<void> {
+  const { error } = await supabase.from('grupa').delete().eq('id', id);
+  if (error) throw error;
+}
+
 export async function listProfesori(): Promise<ProfesorRow[]> {
   const { data, error } = await supabase.from('profesor').select('*').order('nume_prenume');
   if (error) throw error;
@@ -166,6 +195,25 @@ export async function getOrarGrupa(grupaId: number): Promise<OrarRow[]> {
     .order('ora');
   if (error) throw error;
   return data ?? [];
+}
+
+export async function createOrar(input: {
+  grupa_id: number;
+  ziua: Ziua;
+  ora: string;
+}): Promise<OrarRow> {
+  const { data, error } = await supabase
+    .from('orar')
+    .insert({ grupa_id: input.grupa_id, ziua: input.ziua, ora: input.ora })
+    .select('*')
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteOrar(id: number): Promise<void> {
+  const { error } = await supabase.from('orar').delete().eq('id', id);
+  if (error) throw error;
 }
 
 // ---------- Contract ----------------------------------------------------------
@@ -264,6 +312,22 @@ export async function createLectie(input: {
 export async function updateLectie(id: number, patch: Partial<LectieRow>): Promise<void> {
   const { error } = await supabase.from('lectie').update(patch).eq('id', id);
   if (error) throw error;
+}
+
+export async function genereazaLectii(input: {
+  grupaId: number;
+  dataStart: string;
+  dataSfarsit: string;
+  profesorId?: number | null;
+}): Promise<number> {
+  const { data, error } = await supabase.rpc('genereaza_lectii', {
+    p_grupa_id: input.grupaId,
+    p_data_start: input.dataStart,
+    p_data_sfarsit: input.dataSfarsit,
+    p_profesor_id: input.profesorId ?? null,
+  });
+  if (error) throw error;
+  return (data as number | null) ?? 0;
 }
 
 // ---------- Prezenta ----------------------------------------------------------

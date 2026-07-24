@@ -81,7 +81,12 @@ export default function Lectii() {
   if (grupe.length === 0) {
     return (
       <View style={styles.center}>
-        <EmptyState text="Nicio grupă. Adaugă un elev și o configurare financiară cu grupă întâi." />
+        <EmptyState text="Nicio grupă încă. Creează o grupă și definește orarul pentru a genera lecții." />
+        {poateEdita ? (
+          <View style={{ marginTop: 12, alignSelf: 'stretch' }}>
+            <Button label="Grupe & orar" onPress={() => router.push('/grupe')} />
+          </View>
+        ) : null}
       </View>
     );
   }
@@ -96,7 +101,17 @@ export default function Lectii() {
         options={grupe.map((g) => ({ value: g.id, label: g.denumire }))}
       />
 
-      {poateEdita ? <Button label="＋ Adaugă lecție" onPress={() => setAdauga(true)} /> : null}
+      {poateEdita ? (
+        <View style={styles.actions}>
+          <Button label="＋ Adaugă lecție" onPress={() => setAdauga(true)} style={{ flex: 1 }} />
+          <Button
+            variant="ghost"
+            label="Grupe & orar"
+            onPress={() => router.push('/grupe')}
+            style={{ flex: 1, borderWidth: 1, borderColor: colors.border }}
+          />
+        </View>
+      ) : null}
 
       {lectii.length === 0 ? (
         <EmptyState text="Nicio lecție în această grupă." />
@@ -186,6 +201,7 @@ function AdaugaLectieSheet({
 const styles = StyleSheet.create({
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bg, padding: 24 },
   container: { padding: 16, gap: 10 },
+  actions: { flexDirection: 'row', gap: 10 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',

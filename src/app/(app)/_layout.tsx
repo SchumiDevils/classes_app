@@ -55,6 +55,8 @@ export default function AppLayout() {
       <Tabs.Screen name="elev-nou" options={{ href: null, title: 'Elev nou' }} />
       <Tabs.Screen name="lectie/[id]" options={{ href: null, title: 'Lecție' }} />
       <Tabs.Screen name="invite" options={{ href: null, title: 'Invită utilizator' }} />
+      <Tabs.Screen name="grupe" options={{ href: null, title: 'Grupe & orar' }} />
+      <Tabs.Screen name="grupa/[id]" options={{ href: null, title: 'Grupă' }} />
     </Tabs>
   );
 }

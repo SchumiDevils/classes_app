@@ -88,6 +88,7 @@ export default function Setari() {
 
       {esteAdmin ? (
         <>
+          <Button label="Grupe & orar" onPress={() => router.push('/grupe')} />
           <Button label="Invită profesor / elev / tutore" onPress={() => router.push('/invite')} />
           <Button
             variant="danger"
